@@ -47,12 +47,14 @@ fn create_gtk_box() -> gtk::Box {
         }),
     );
 
-    let gtk_box = gtk::Box::builder().build();
+    let gtk_box = gtk::Box::builder()
+        .orientation(gtk::Orientation::Vertical)
+        .build();
 
     gtk_box.append(&inc_button);
     gtk_box.append(&dec_button);
 
-    gtk_box
+    return gtk_box;
 }
 
 fn create_button(label: &str, margin: i32, click: Box<dyn Fn(&Button) -> ()>) -> Button {
