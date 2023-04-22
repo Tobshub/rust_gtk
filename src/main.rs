@@ -1,7 +1,10 @@
 use std::cell::Cell;
 use std::rc::Rc;
 
-use gtk::{glib, Application, Button};
+use gtk::{
+    glib::{self, clone},
+    Application, Button,
+};
 use gtk::{prelude::*, ApplicationWindow};
 
 fn main() -> glib::ExitCode {
@@ -29,13 +32,12 @@ fn present_window(app: &Application) {
 fn create_gtk_box() -> gtk::Box {
     let number = Rc::new(Cell::new(0));
 
-    let number_copy = number.clone();
     let inc_button = create_button(
         "INCREMENT",
         12,
-        Box::new(move |_| {
-            number_copy.set(number_copy.get() + 1);
-        }),
+        Box::new(clone!(@strong number => move |_| {
+            number.set(number.get() + 1);
+        })),
     );
     let dec_button = create_button(
         "DECREMENT",
