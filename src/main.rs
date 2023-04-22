@@ -1,3 +1,6 @@
+use std::cell::Cell;
+use std::rc::Rc;
+
 use gtk::{glib, Application, Button};
 use gtk::{prelude::*, ApplicationWindow};
 
@@ -12,18 +15,42 @@ fn main() -> glib::ExitCode {
 }
 
 fn present_window(app: &Application) {
-    fn x(b: &Button) {
-        b.set_label("Hello world!")
-    }
-    let button = create_button("Press me!", 12, Box::new(x));
+    let gtk_box = create_gtk_box();
     let window = ApplicationWindow::builder()
         .application(app)
         // .default_width(800)
         // .default_height(600)
         .title("RUST GTK")
-        .child(&button)
+        .child(&gtk_box)
         .build();
     window.present();
+}
+
+fn create_gtk_box() -> gtk::Box {
+    let number = Rc::new(Cell::new(0));
+
+    let number_copy = number.clone();
+    let inc_button = create_button(
+        "INCREMENT",
+        12,
+        Box::new(move |_| {
+            number_copy.set(number_copy.get() + 1);
+        }),
+    );
+    let dec_button = create_button(
+        "DECREMENT",
+        12,
+        Box::new(move |_| {
+            number.set(number.get() - 1);
+        }),
+    );
+
+    let gtk_box = gtk::Box::builder().build();
+
+    gtk_box.append(&inc_button);
+    gtk_box.append(&dec_button);
+
+    gtk_box
 }
 
 fn create_button(label: &str, margin: i32, click: Box<dyn Fn(&Button) -> ()>) -> Button {

@@ -537,6 +537,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "rust_gtk"
+version = "0.1.0"
+dependencies = [
+ "gtk4",
+]
+
+[[package]]
 name = "rustc_version"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -621,13 +628,6 @@ name = "target-lexicon"
 version = "0.12.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ae9980cab1db3fceee2f6c6f643d5d8de2997c58ee8d25fb0cc8a9e9e7348e5"
-
-[[package]]
-name = "text_editor"
-version = "0.1.0"
-dependencies = [
- "gtk4",
-]
 
 [[package]]
 name = "thiserror"
