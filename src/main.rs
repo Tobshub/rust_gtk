@@ -32,16 +32,16 @@ fn create_gtk_box() -> gtk::Box {
     let inc_button = create_button(
         "INCREMENT",
         12,
-        Box::new(clone!(@strong number => move |_| {
+        Some(Box::new(clone!(@strong number => move |_| {
             number.set(number.get() + 1);
-        })),
+        }))),
     );
     let dec_button = create_button(
         "DECREMENT",
         12,
-        Box::new(move |_| {
+        Some(Box::new(move |_| {
             number.set(number.get() - 1);
-        }),
+        })),
     );
 
     let gtk_box = gtk::Box::builder()
@@ -54,9 +54,11 @@ fn create_gtk_box() -> gtk::Box {
     return gtk_box;
 }
 
-fn create_button(label: &str, margin: i32, click: Box<dyn Fn(&Button) -> ()>) -> Button {
+fn create_button(label: &str, margin: i32, click: Option<Box<dyn Fn(&Button) -> ()>>) -> Button {
     let button = gtk_button!(label, margin);
-    button.connect_clicked(click);
+    if click.is_some() {
+        button.connect_clicked(click.unwrap());
+    }
     button
 }
 
