@@ -1,11 +1,8 @@
 use std::cell::Cell;
 use std::rc::Rc;
 
-use gtk::{
-    glib::{self, clone},
-    Application, Button,
-};
-use gtk::{prelude::*, ApplicationWindow};
+use gtk::glib::{self, clone};
+use gtk::{prelude::*, Application, ApplicationWindow, Button};
 
 fn main() -> glib::ExitCode {
     let app = Application::builder()
