@@ -74,4 +74,14 @@ macro_rules! gtk_button {
             .build();
         button
     }};
+    ($label: expr, $margin_block: expr, $margin_inline: expr) => {{
+        let button = Button::builder()
+            .label($label)
+            .margin_top($margin_block)
+            .margin_bottom($margin_block)
+            .margin_start($margin_inline)
+            .margin_end($margin_inline)
+            .build();
+        button
+    }};
 }
