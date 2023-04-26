@@ -1,8 +1,11 @@
 use std::cell::Cell;
 use std::rc::Rc;
 
+mod components;
+use crate::components::button::create_button;
+
 use gtk::glib::{self, clone};
-use gtk::{prelude::*, Application, ApplicationWindow, Button};
+use gtk::{prelude::*, Application, ApplicationWindow};
 
 fn main() -> glib::ExitCode {
     let app = Application::builder()
@@ -52,36 +55,4 @@ fn create_gtk_box() -> gtk::Box {
     gtk_box.append(&dec_button);
 
     return gtk_box;
-}
-
-fn create_button(label: &str, margin: i32, click: Option<Box<dyn Fn(&Button) -> ()>>) -> Button {
-    let button = gtk_button!(label, margin);
-    if click.is_some() {
-        button.connect_clicked(click.unwrap());
-    }
-    button
-}
-
-#[macro_export]
-macro_rules! gtk_button {
-    ($label: expr, $margin: expr) => {{
-        let button = Button::builder()
-            .label($label)
-            .margin_top($margin)
-            .margin_bottom($margin)
-            .margin_start($margin)
-            .margin_end($margin)
-            .build();
-        button
-    }};
-    ($label: expr, $margin_block: expr, $margin_inline: expr) => {{
-        let button = Button::builder()
-            .label($label)
-            .margin_top($margin_block)
-            .margin_bottom($margin_block)
-            .margin_start($margin_inline)
-            .margin_end($margin_inline)
-            .build();
-        button
-    }};
 }
